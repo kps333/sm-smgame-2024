@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>问答测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { margin-bottom: 20px; }
+        .hidden { display: none; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>简单的问答测试</h1>
+    <div id="quiz">
+        <!-- 问题 1 -->
+        <div class="question" id="question1">
+            <p>问题 1：你喜欢编程吗？</p>
+            <button onclick="nextQuestion(1, 'yes')">喜欢</button>
+            <button onclick="nextQuestion(1, 'no')">不喜欢</button>
+        </div>
+        <!-- 问题 2 -->
+        <div class="question hidden" id="question2">
+            <p>问题 2：你喜欢哪种编程语言？</p>
+            <button onclick="nextQuestion(2, 'python')">Python</button>
+            <button onclick="nextQuestion(2, 'javascript')">JavaScript</button>
+        </div>
+        <!-- 问题 3 -->
+        <div class="question hidden" id="question3">
+            <p>问题 3：你更喜欢开发哪种应用？</p>
+            <button onclick="nextQuestion(3, 'web')">网页应用</button>
+            <button onclick="nextQuestion(3, 'data')">数据处理</button>
+        </div>
+        <!-- 测试结果 -->
+        <div class="hidden" id="result">
+            <h2>测试结果：</h2>
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <script>
+        let answers = {}; // 存储答案
+
+        function nextQuestion(questionNumber, answer) {
+            // 保存答案
+            answers[`question${questionNumber}`] = answer;
+
+            // 隐藏当前问题
+            document.getElementById(`question${questionNumber}`).classList.add('hidden');
+
+            // 显示下一个问题或结果
+            const nextQuestionId = `question${questionNumber + 1}`;
+            const nextQuestionElement = document.getElementById(nextQuestionId);
+            if (nextQuestionElement) {
+                nextQuestionElement.classList.remove('hidden');
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            // 生成结果
+            const resultText = `
+                你喜欢编程吗？${answers.question1} <br>
+                你喜欢的编程语言是：${answers.question2 || '未选择'} <br>
+                你更喜欢的应用类型是：${answers.question3 || '未选择'}
+            `;
+            document.getElementById('resultText').innerHTML = resultText;
+
+            // 显示结果
+            document.getElementById('result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
